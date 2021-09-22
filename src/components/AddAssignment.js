@@ -21,7 +21,7 @@ export default class AddAssignment extends Component {
 						Name: <input id="name" type="text"></input>
 					</label>
 					<label style={{ display: 'block' }}>
-						Due Date: <input id="dueDate" type="date"></input>
+						Due Date: <input id="dueDate" type="text"></input>
 					</label>
 					<label style={{ display: 'block' }}>
 						Course: <input id="course" type="text"></input>
@@ -41,6 +41,12 @@ export default class AddAssignment extends Component {
 	}
 
 	postAssignment = () => {
+
+		let data = { 
+			name: this.state.name, 
+			dueDate: this.state.dueDate
+		};
+
 		const token = Cookies.get('XSRF-TOKEN');
 		fetch(`${SERVER_URL}/gradebook/addAssignment`,
 		  {
@@ -50,10 +56,7 @@ export default class AddAssignment extends Component {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			 },
-			 body: JSON.stringify({
-				'assignmentName': this.state.name,
-				'dueDate': this.state.dueDate
-			 })
+			 body: JSON.stringify(data),
 		  }).then((response) => response.json())
 		  .then((responseData) => {
 			 console.log(responseData);
